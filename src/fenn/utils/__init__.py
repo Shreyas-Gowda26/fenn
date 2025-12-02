@@ -5,8 +5,7 @@ try:
     import torch
 except ImportError as e:
     raise RuntimeError(
-        "Torch is required by fenn."
-        "Install it yourself (GPU/CPU) or use 'pip install fenn[torch]'."
+        "Torch is required by fenn. Install it yourself (GPU/CPU) or use 'pip install fenn[torch]'."
     ) from e
 
 def set_seed(seed: int) -> None:

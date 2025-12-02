@@ -1,8 +1,10 @@
 from fenn import FENN
+from fenn.notification import Notifier
 from fenn.notification.services import Discord, Telegram
 
 app = FENN()
-app.register_notification_services([Discord, Telegram])
+notifier = Notifier()
+notifier.add_services([Discord, Telegram])
 
 @app.entrypoint
 def main(args):
@@ -10,7 +12,7 @@ def main(args):
     # 'args' contains your fenn.yaml configurations
     message = f"Training with learning rate: {args['training']['lr']}"
 
-    app.notify(message)
+    notifier.notify(message)
     print(message)
 
     # Your logic here...
