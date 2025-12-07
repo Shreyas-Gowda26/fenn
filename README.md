@@ -20,7 +20,7 @@ fenn is a lightweight Python framework that automates the "boring stuff" in Mach
 
 - **Unified Logging**: All logs, print statements, and experiment metadata are automatically captured to local files and remote tracking backends simultaneously with no manual setup required.
 
-- **Multi-Backend Monitoring**: Native integration with industry-standard trackers like (Weights & Biases)[https://wandb.ai/] (W&B) for centralized experiment tracking and (TensorBoard)[https://www.tensorflow.org/tensorboard] for real-time metric visualization
+- **Multi-Backend Monitoring**: Native integration with industry-standard trackers like [Weights & Biases](https://wandb.ai/) (W&B) for centralized experiment tracking and [TensorBoard](https://www.tensorflow.org/tensorboard) for real-time metric visualization
 
 - **Instant Notifications**: Get real-time alerts on **Discord** and **Telegram** when experiments start, complete, or fail—no polling or manual checks.
 
