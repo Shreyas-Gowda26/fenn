@@ -34,7 +34,7 @@ testing:
 batch: batch_size
 ```
 
-> **Tip**  
+> **Tip**
 > You can add new sections as needed (for example, `model`, `optimizer`, `scheduler`) and access them via the same keys in `args`. This makes it easy to manage multiple experiments by maintaining different YAML files.
 
 ## Configuration File Name

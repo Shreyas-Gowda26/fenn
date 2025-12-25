@@ -6,6 +6,7 @@ docs_dir: src
 
 theme:
   name: material
+  custom_dir: overrides
   language: en
   features:
     - navigation.tabs
@@ -31,16 +32,15 @@ theme:
 
 nav:
   - Home: index.md
+  - Quickstart: quickstart.md
   - User Guide:
-      - Quickstart: quickstart.md
-      - Notifications: notification_system.md
-      - Fenn Pull: pull_command.md 
-  - Contributions:
-      - Contributing: contributing.md
-  - Features:
-      - Configuration: configuration.md
-      - Logger: logger.md
-      - Wandb: wandb.md
+      - Configuration: user_guide/configuration.md
+      - Logger: user_guide/logger.md
+      - Wandb: user_guide/wandb.md
+      - Notifications: user_guide/notifications.md
+  - CLI:
+    - Pull: CLI/pull.md
+  - Contribution Guide: contributing.md
 
 markdown_extensions:
   - admonition
@@ -60,4 +60,7 @@ extra:
       link: https://github.com/pyfenn/fenn
       name: Source on GitHub
 
+extra_css:
+  - css/extra.css
 
+copyright: "Copyright &copy; 2025 PyFenn"
