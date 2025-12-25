@@ -30,16 +30,13 @@ This will generate two essential files:
 Open `fenn.yaml` to define your project settings. Fenn separates system logic (logging) from your experiment logic (`train`).
 
 ```yaml
-# fenn.yaml
-project: my-first-fenn-project
+project: my_project
 
 logger:
   dir: logs
 
 train:
   lr: 0.001
-  batch_size: 32
-
 ```
 
 ## Write and Run the Entrypoint
