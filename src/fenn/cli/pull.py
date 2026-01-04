@@ -22,31 +22,21 @@ def execute(args: argparse.Namespace) -> None:
             - template: Name of the template to download (optional if --list is used)
             - path: Target directory (default: current directory)
             - force: Whether to overwrite existing files
-            - list: Whether to list available templates
     """
-    if getattr(args, 'list', False) is True:
-        try:
-            _list_templates()
-        except NetworkError as e:
-            print(f"{Fore.RED}[FENN] Network error: {e}{Style.RESET_ALL}")
-            sys.exit(1)
-        return
-
     template_name = args.template
     target_dir = Path(args.path).resolve() if args.path else Path.cwd()
     force = args.force
 
     if not template_name:
-        print(f"{Fore.RED}[FENN] Template name is required.")
-        print(f"{Fore.RED}Example: {Fore.LIGHTYELLOW_EX}fenn pull base{Style.RESET_ALL}")
-        print(f"{Fore.RED}Or use {Fore.LIGHTYELLOW_EX}fenn pull --list{Fore.RED} to see available templates.{Style.RESET_ALL}")
+        print(f"{Fore.RED}Template name is required (example: {Fore.LIGHTYELLOW_EX}fenn pull base{Fore.RED}){Style.RESET_ALL}")
+        print(f"{Fore.CYAN}Use {Fore.LIGHTYELLOW_EX}fenn list{Fore.CYAN} to see available templates.{Style.RESET_ALL}")
         sys.exit(1)
 
     if target_dir.exists() and any(target_dir.iterdir()) and not force:
         print(
-            f"{Fore.RED}[FENN] Refusing to pull into non-empty directory "
-            f"{Fore.LIGHTYELLOW_EX}{target_dir}{Fore.RED}. "
-            f"Use {Fore.LIGHTYELLOW_EX}--force{Fore.RED} to override.{Style.RESET_ALL}"
+            f"{Fore.RED}Refusing to pull into non-empty directory "
+            f"{Fore.LIGHTYELLOW_EX}{target_dir}{Fore.RED}. \n"
+            f"Use {Fore.LIGHTYELLOW_EX}--force{Fore.RED} to override existing files.{Style.RESET_ALL}"
         )
         sys.exit(1)
 
@@ -54,18 +44,18 @@ def execute(args: argparse.Namespace) -> None:
         # Download and extract template
         _download_template(template_name, target_dir, force)
         print(
-            f"{Fore.GREEN}[FENN] Successfully pulled template "
+            f"{Fore.GREEN}Successfully pulled template "
             f"{Fore.LIGHTYELLOW_EX}{template_name}{Fore.GREEN} into "
             f"{Fore.LIGHTYELLOW_EX}{target_dir}{Fore.GREEN}.{Style.RESET_ALL}"
         )
     except TemplateNotFoundError as e:
-        print(f"{Fore.RED}[FENN] {e}{Style.RESET_ALL}")
+        print(f"{Fore.RED}{e}{Style.RESET_ALL}")
         sys.exit(1)
     except NetworkError as e:
-        print(f"{Fore.RED}[FENN] Network error: {e}{Style.RESET_ALL}")
+        print(f"{Fore.RED}Network error: {e}{Style.RESET_ALL}")
         sys.exit(1)
     except TemplateError as e:
-        print(f"{Fore.RED}[FENN] Template error: {e}{Style.RESET_ALL}")
+        print(f"{Fore.RED}Template error: {e}{Style.RESET_ALL}")
         sys.exit(1)
 
 
@@ -163,37 +153,3 @@ class NetworkError(Exception):
 class TemplateError(Exception):
     """Raised when a template has an invalid structure."""
     pass
-
-
-def _list_templates() -> None:
-    """
-    List all available template directories in the templates repository.
-
-    Raises:
-        NetworkError: If network request fails
-    """
-    api_url = f"{GITHUB_API_BASE}/repos/{TEMPLATES_REPO}/contents"
-
-    try:
-        response = requests.get(api_url, timeout=10)
-        response.raise_for_status()
-    except requests.exceptions.RequestException as e:
-        raise NetworkError(f"Failed to fetch template list: {e}")
-
-    contents = response.json()
-
-    templates = [
-        item["name"] for item in contents
-        if item.get("type") == "dir"
-    ]
-
-    if not templates:
-        print(f"{Fore.YELLOW}[FENN] No templates found in the repository.{Style.RESET_ALL}")
-        return
-
-    templates.sort()
-
-    print(f"{Fore.GREEN}[FENN] Available templates:{Style.RESET_ALL}")
-    for template in templates:
-        print(f"  {Fore.LIGHTYELLOW_EX}{template}{Style.RESET_ALL}")
-    print(f"\n{Fore.CYAN}Use {Fore.LIGHTYELLOW_EX}fenn pull <template>{Fore.CYAN} to download a template.{Style.RESET_ALL}")

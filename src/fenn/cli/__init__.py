@@ -1,11 +1,12 @@
 import argparse
-import fenn.cli.pull_command as pull_command
+import fenn.cli.pull as pull
+import fenn.cli.list as list
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="fenn")
     subparsers = parser.add_subparsers(dest="command", required=True)
 
-    # --- Level 1 ---
+    # ========= PULL =========
     p_pull = subparsers.add_parser("pull", help="Download a template from the fenn templates repository")
 
     # --- Level 2 ---
@@ -28,13 +29,11 @@ def build_parser() -> argparse.ArgumentParser:
         help="Overwrite existing files if needed",
     )
 
-    p_pull.add_argument(
-        "--list",
-        action="store_true",
-        help="List available templates in the repository",
-    )
+    p_pull.set_defaults(func=pull.execute)
 
-    p_pull.set_defaults(func=pull_command.execute)
+    # ========= LIST =========
+    p_list = subparsers.add_parser("list", help="List available templates in the fenn templates repository")
+    p_list.set_defaults(func=list.execute)
 
     return parser
 
