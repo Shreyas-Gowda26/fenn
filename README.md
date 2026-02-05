@@ -36,11 +36,19 @@ pip install fenn
 
 ### Initialize a Project
 
-Run the CLI tool to download a template and config file:
+Run the CLI tool to see which repositories are available and to download a template together with its configuration file. First, list the available repositories:
+
+```bash
+fenn list
+````
+
+Then, download one of the available templates (here `base` is just an example):
 
 ```bash
 fenn pull base
 ```
+
+This command downloads the selected template into the current directory and generates the corresponding configuration file, which can be customized before running or extending the project.
 
 ### Configuration
 
